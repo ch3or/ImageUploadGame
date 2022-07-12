@@ -4,30 +4,44 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Madebycheor</title>
     <link rel="stylesheet" href="style.css">
     <script src="main.js"></script>
 </head>
 <body onload="image()">
     <center>
-    <h1 class="main">Image.Uploader!</h1>
+    <h1 class="main">Envie uma imagem!</h1>
     <br>
     <br>
-    <input onchange="change()" type="file" id="image-input" accept="image/jpeg, image/png, image/jpg">
+    <input type="file" id="image-input" accept="image/jpeg, image/png, image/jpg">
     <br><br>
     <br><br>
     <div id="display-image"></div>
     </center>
   </body>
+  <script>
+function image(){
+  localStorage.removeItem("reloa");
+  document.querySelector("#display-image").style.backgroundImage = localStorage.imagem;
+} 
+  </script>
 <script>
+  var t=setInterval(every,1000);
+  function every(){
+    if (localStorage.reloa == "reload"){
+    document.location.reload(true)
+    clearInterval(t);
+    }
+ }
     const image_input = document.querySelector("#image-input");
-
 image_input.addEventListener("change", function() {
-  const reader = new FileReader();
+  const reader = new FileReader();  
   reader.addEventListener("load", () => {
     const uploaded_image = reader.result;
     document.querySelector("#display-image").style.backgroundImage = `url(${uploaded_image})`;
-    
+    localStorage.removeItem("imagem");
+    localStorage.imagem = document.querySelector("#display-image").style.backgroundImage;
+    localStorage.reloa = "reload";
   });
   reader.readAsDataURL(this.files[0]);
 });
